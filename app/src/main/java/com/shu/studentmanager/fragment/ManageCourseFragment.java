@@ -197,6 +197,7 @@ public class ManageCourseFragment extends Fragment {
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .build();
+
                 Response response = null;
                 try {
                     response = client.newCall(request).execute();
