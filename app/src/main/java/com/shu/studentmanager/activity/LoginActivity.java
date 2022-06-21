@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     login(text_username.getText().toString(), text_password.getText().toString());
                 } catch (IOException | JSONException e) {

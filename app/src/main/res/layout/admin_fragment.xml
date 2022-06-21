@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="admin_view_model"
             type="com.shu.studentmanager.viewmodel.AdminViewModel" />
@@ -13,6 +14,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/admin_move_constrain_parent"
             android:layout_width="match_parent"
@@ -74,7 +76,8 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/admin_new_password_1"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"/>
+
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -126,20 +129,20 @@
 
                         <TextView
                             android:id="@+id/admin_fragment_teacher_name"
-                            android:paddingLeft="5dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
+                            android:paddingLeft="5dp"
                             android:textColor="@color/black"
-                            android:textSize="25sp"></TextView>
+                            android:textSize="25sp"/>
 
                         <TextView
                             android:id="@+id/admin_frament_teacher_id"
-                            android:paddingLeft="5dp"
                             android:layout_width="match_parent"
-                            android:layout_marginTop="10dp"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"></TextView>
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="5dp"
+                            android:textSize="18sp"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/admin_touch_to_edit_btn"
@@ -152,15 +155,15 @@
                 </com.google.android.material.card.MaterialCardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
-
 
 
 </layout>

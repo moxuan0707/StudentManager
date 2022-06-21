@@ -116,7 +116,43 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
     }
 
     private void enSureDelete(Teacher teacher) {
-        Log.d("re", "enSureDelete: " + teacher.toString());
+        Log.d(TAG, "enSureDelete: "+ teacher.toString());
+        String url = localUrl+ "teacher/deleteById/"+teacher.getTid();
+        new Thread(){
+            @Override
+            public void run(){
+                super.run();
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                Request request = new Request.Builder()
+                        .url(url)
+                        .method("GET", null)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+//                      Log.d(TAG, "run: "+response.body().string());
+                        Boolean insert_true = Boolean.parseBoolean(response.body().string());
+                        final MainActivity mainActivity;
+                        mainActivity = (MainActivity) context;
+                        if(insert_true){
+                            Handler handler = mainActivity.getHandler_main_activity();
+                            Message message = handler.obtainMessage();
+                            message.what = RequestConstant.REQUEST_SUCCESS;
+                            handler.sendMessage(message);
+                        } else {
+                            Handler handler = mainActivity.getHandler_main_activity();
+                            Message message = handler.obtainMessage();
+                            message.what = RequestConstant.REQUEST_FAILURE;
+                            handler.sendMessage(message);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)

@@ -18,13 +18,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 import com.shu.studentmanager.R;
+import com.shu.studentmanager.activity.LoginActivity;
 import com.shu.studentmanager.activity.MainActivity;
 import com.shu.studentmanager.constant.RequestConstant;
 import com.shu.studentmanager.entity.Student;
@@ -112,9 +116,46 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     }
 
     private void enSureDelete(Student student) {
-        Log.d(TAG, "enSureDelete: " + student.toString());
+        Log.d(TAG, "enSureDelete: "+ student.toString());
+        String url = localUrl+ "student/deleteById/"+student.getSid();
+        new Thread(){
+            @Override
+            public void run(){
+                super.run();
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                Request request = new Request.Builder()
+                        .url(url)
+                        .method("GET", null)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+//                      Log.d(TAG, "run: "+response.body().string());
+                        Boolean insert_true = Boolean.parseBoolean(response.body().string());
+                        final MainActivity mainActivity;
+                        mainActivity = (MainActivity) context;
+                        if(insert_true){
+                            Handler handler = mainActivity.getHandler_main_activity();
+                            Message message = handler.obtainMessage();
+                            message.what = RequestConstant.REQUEST_SUCCESS;
+                            handler.sendMessage(message);
+                        } else {
+                            Handler handler = mainActivity.getHandler_main_activity();
+                            Message message = handler.obtainMessage();
+                            message.what = RequestConstant.REQUEST_FAILURE;
+                            handler.sendMessage(message);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
     }
 
+    //    管理员修改学生密码
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void showAlertDialogMode(int position, TextView student_password) {
         final EditText input = new EditText(context);
@@ -194,6 +235,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             }
         }.start();
     }
+
+
 
     @Override
     public int getItemCount() {
