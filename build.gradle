@@ -1,0 +1,40 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
+
+buildscript {
+    ext.kotlin_version = '1.6.0'
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2' //这里不用和我一样，和你项目里面的版本一样就行
+        classpath 'com.google.gms:google-services:4.0.1'  //这行对谷歌服务库进行依赖
+
+    }
+}
+
+plugins {
+    id 'com.android.application' version '7.1.1' apply false
+    id 'com.android.library' version '7.1.1' apply false
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+//        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
