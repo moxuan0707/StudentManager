@@ -71,6 +71,7 @@ public class StudentFragment extends Fragment {
     String newPassword;
     String newPassword2;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -80,8 +81,8 @@ public class StudentFragment extends Fragment {
         studentFragmentBinding.setLifecycleOwner(getActivity());
 
         StudentManagerApplication application = (StudentManagerApplication) getActivity().getApplication();
-        studentFragmentBinding.studentFragmentStudentId.setText("ID:"+application.getId());
-        studentFragmentBinding.studentFragmentStudentName.setText("用户名:"+application.getName());
+        studentFragmentBinding.studentFragmentStudentId.setText(application.getId());
+        studentFragmentBinding.studentFragmentStudentName.setText(application.getName());
 
 
         student_course_list_recyclerview = studentFragmentBinding.studentFragmentCourseListRecycleview;
@@ -171,15 +172,15 @@ public class StudentFragment extends Fragment {
                 Student student = new Student();
                 newPassword = mtextInputEditText.getText().toString();
                 newPassword2 = mtextInputEditTextagain.getText().toString();
-                Log.i("a", "newPassword: "+newPassword);
-                Log.i("a", "newPassword2: "+newPassword2);
+                Log.i("a", "newPassword: " + newPassword);
+                Log.i("a", "newPassword2: " + newPassword2);
                 String sname = String.valueOf(mtextViewName.getText());
                 String sid = String.valueOf(mtextViewId.getText());
                 student.setSid(sid);
                 student.setPassword(newPassword);
                 student.setSname(sname);
 //                判断两次密码是否一致
-                if (newPassword.equals("") || newPassword2.equals("")||newPassword.equals(" ")||newPassword2.equals(" ")) {
+                if (newPassword.equals("") || newPassword2.equals("") || newPassword.equals(" ") || newPassword2.equals(" ")) {
                     Toast.makeText(v.getContext(), "密码不能为空", Toast.LENGTH_SHORT).show();
                 } else if (newPassword.equals(newPassword2)) {
                     try {
@@ -233,6 +234,7 @@ public class StudentFragment extends Fragment {
         }.start();
 
     }
+
 
     @Override
     public void onDestroyView() {

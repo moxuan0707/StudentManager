@@ -80,8 +80,8 @@ public class TeacherFragment extends Fragment {
         teacherFragmentBinding.setLifecycleOwner(getActivity());
 
         StudentManagerApplication application = (StudentManagerApplication) getActivity().getApplication();
-        teacherFragmentBinding.teacherFragmentTeacherName.setText("用户名:"+application.getName());
-        teacherFragmentBinding.teacherFramentTeacherId.setText("ID:"+application.getId());
+        teacherFragmentBinding.teacherFragmentTeacherName.setText(application.getName());
+        teacherFragmentBinding.teacherFramentTeacherId.setText(application.getId());
 
         course_list_recycleview = teacherFragmentBinding.courseListRecycleview;
         setCoureListRecycleView();

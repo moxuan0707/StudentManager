@@ -73,8 +73,8 @@ public class AdminFragment extends Fragment {
         adminFragmentBinding.setLifecycleOwner(getActivity());
 
         StudentManagerApplication application = (StudentManagerApplication) getActivity().getApplication();
-        adminFragmentBinding.adminFramentTeacherId.setText("ID:"+application.getId());
-        adminFragmentBinding.adminFragmentTeacherName.setText("用户名:"+application.getName());
+        adminFragmentBinding.adminFramentTeacherId.setText(application.getId());
+        adminFragmentBinding.adminFragmentTeacherName.setText(application.getName());
 
         View root = adminFragmentBinding.getRoot();
         return root;

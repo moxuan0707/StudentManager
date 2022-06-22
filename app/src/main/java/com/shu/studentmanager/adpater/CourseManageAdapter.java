@@ -127,7 +127,8 @@ public class CourseManageAdapter extends RecyclerView.Adapter<CourseManageAdapte
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, "onClick: "+ which +" "+position+" "+input.getText().toString());
 //                        enSureChangePassword(input.getText().toString(),studentList.get(position));
-                        student_password.setText(input.getText().toString());
+//                        student_password.setText(input.getText().toString());
+
                     }
                 }).show();
     }

@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
 
         Menu menu = navigationView.getMenu();
+
+//        根据选择的登录对象显示菜单功能
         if (user_kind_string.equals("student")) {
             Log.d(TAG, "onCreate: " + user_kind_string);
             menu.removeGroup(R.id.teacher_menu_group);
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                                                   @Nullable Bundle arguments
                                                           ) {
                                                               toolbar.setTitle(destination.getLabel());
-//                        Toast.makeText(getApplicationContext(), destination.getLabel(), Toast.LENGTH_SHORT).show();
+//                                                              Toast.makeText(getApplicationContext(), destination.getLabel(), Toast.LENGTH_SHORT).show();
                                                           }
                                                       }
         );
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+//        选项卡信息渲染
         initUi();
 
         handler_main_activity = new Handler() {
@@ -133,6 +136,24 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.teacher_menu,menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        Intent intent = null;
+//        if (item.getItemId() == R.id.logout) {
+//            intent = new Intent(MainActivity.this, LoginActivity.class);
+//            Toast.makeText(this, "退出", Toast.LENGTH_LONG).show();
+//            Log.i("te", "onOptionsItemSelected: " + "点击了退出");
+//        }
+//        startActivity(intent);
+//        return true;
+//    }
 
     private void initUi() {
         StudentManagerApplication application = (StudentManagerApplication) getApplication();

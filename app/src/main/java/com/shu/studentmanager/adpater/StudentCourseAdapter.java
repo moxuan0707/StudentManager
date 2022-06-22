@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.shu.studentmanager.R;
 import com.shu.studentmanager.entity.CourseStudent;
-import com.shu.studentmanager.entity.CourseTeacher;
-
 import java.util.ArrayList;
 
 public class StudentCourseAdapter extends RecyclerView.Adapter<StudentCourseAdapter.ViewHolder> {
@@ -28,15 +26,6 @@ public class StudentCourseAdapter extends RecyclerView.Adapter<StudentCourseAdap
     public StudentCourseAdapter(Context context) {
         this.context = context;
         this.courseStudentList = new ArrayList<CourseStudent>();
-    }
-
-    public StudentCourseAdapter() {
-        this.courseStudentList = new ArrayList<CourseStudent>();
-    }
-
-    public StudentCourseAdapter(Context context, ArrayList<CourseStudent> courseStudentList) {
-        this.context = context;
-        this.courseStudentList = courseStudentList;
     }
 
     @NonNull
