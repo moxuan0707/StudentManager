@@ -47,6 +47,10 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
     Context context;
     ArrayList<Teacher> teacherList;
 
+    public TeacherAdapter() {
+        this.teacherList = new ArrayList<Teacher>();
+    }
+
     public TeacherAdapter(Context context) {
         this.context = context;
         this.teacherList = new ArrayList<Teacher>();
@@ -57,10 +61,8 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
         this.teacherList = teacherList;
     }
 
-    public TeacherAdapter() {
-        this.teacherList = new ArrayList<Teacher>();
-    }
-
+    //这个方法主要是用于找到子项item得布局，其中的代码基本上都是上面两行代码，
+    // 需要从activity中传一个context上下文过来.
     @NonNull
     @Override
     public TeacherAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,6 +70,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
         return new TeacherAdapter.ViewHolder(view);
     }
 
+    //负责每个子项目的holder数据绑定
     @Override
     public void onBindViewHolder(@NonNull TeacherAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (teacherList != null && teacherList.size() > 0) {
@@ -116,11 +119,11 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
     }
 
     private void enSureDelete(Teacher teacher) {
-        Log.d(TAG, "enSureDelete: "+ teacher.toString());
-        String url = localUrl+ "teacher/deleteById/"+teacher.getTid();
-        new Thread(){
+        Log.d(TAG, "enSureDelete: " + teacher.toString());
+        String url = localUrl + "teacher/deleteById/" + teacher.getTid();
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 super.run();
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
@@ -135,7 +138,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
                         Boolean insert_true = Boolean.parseBoolean(response.body().string());
                         final MainActivity mainActivity;
                         mainActivity = (MainActivity) context;
-                        if(insert_true){
+                        if (insert_true) {
                             Handler handler = mainActivity.getHandler_main_activity();
                             Message message = handler.obtainMessage();
                             message.what = RequestConstant.REQUEST_SUCCESS;
@@ -155,8 +158,9 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
 
     }
 
+    //    管理员修改学生密码
     @RequiresApi(api = Build.VERSION_CODES.P)
-    private void showAlertDialogMode(int position, TextView student_password) {
+    private void showAlertDialogMode(int position, TextView teacher_password) {
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setLineHeight(12);
@@ -184,7 +188,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        student_password.setText(input.getText().toString());
+                        teacher_password.setText(input.getText().toString());
                     }
                 }).show();
     }
@@ -192,18 +196,18 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
     private void enSureChangePassword(String s, Teacher teacher) throws JSONException {
         MediaType JSON = MediaType.parse("application/json;charset=utf-8");
         JSONObject json = new JSONObject();
-        json.put("tid",teacher.getTid());
-        json.put("password",s);
-        json.put("tname",teacher.getTname());
-        new Thread(){
+        json.put("tid", teacher.getTid());
+        json.put("password", s);
+        json.put("tname", teacher.getTname());
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 super.run();
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
-                RequestBody body = RequestBody.create(JSON,json.toString());
+                RequestBody body = RequestBody.create(JSON, json.toString());
                 Request request = new Request.Builder()
-                        .url(localUrl+"teacher/updateTeacher")
+                        .url(localUrl + "teacher/updateTeacher")
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .build();
@@ -214,7 +218,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
                         Boolean insert_true = Boolean.parseBoolean(response.body().string());
                         final MainActivity mainActivity;
                         mainActivity = (MainActivity) context;
-                        if(insert_true){
+                        if (insert_true) {
                             Handler handler = mainActivity.getHandler_main_activity();
                             Message message = handler.obtainMessage();
                             message.what = RequestConstant.REQUEST_SUCCESS;
@@ -242,12 +246,6 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.ViewHold
         this.teacherList.clear();
         this.teacherList.addAll(mTeacherList);
         notifyDataSetChanged();
-    }
-
-    public void refreshListView() {
-        ArrayList<Teacher> refreshteacherList = new ArrayList<Teacher>();
-        refreshteacherList = teacherList;
-        updateStudentList(refreshteacherList);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

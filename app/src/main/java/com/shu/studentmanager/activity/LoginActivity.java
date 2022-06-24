@@ -2,13 +2,13 @@ package com.shu.studentmanager.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Application;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.system.StructUtsname;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,25 +43,30 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private TextInputEditText text_username;
     private TextInputEditText text_password;
+    private TextInputEditText password_see;
     private RadioGroup radioGroup;
     private String user_kind;
     Handler handler;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_login);
 
+        //用databinding代替传统绑定布局方式
         activityLoginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(activityLoginBinding.getRoot());
         btn_login = activityLoginBinding.logInBtn;
         text_username = activityLoginBinding.usernameText;
         text_password = activityLoginBinding.passwordText;
         radioGroup = activityLoginBinding.selectKindUser;
+//        登录的handler进程
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == RequestConstant.REQUEST_SUCCESS) {
+//                    Intent跳转
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtras(msg.getData());
                     startActivity(intent);
@@ -70,19 +75,25 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         initListener();
+
+        //保证密码初始时候是隐藏的
+        text_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
     }
 
+    //登录按钮点击事件
     private void initListener() {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+//                    获取输入的账号和密码
                     login(text_username.getText().toString(), text_password.getText().toString());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+//        学生和教师选择按钮
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -100,17 +111,22 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //    创建登录的线程
     private void login(String username, String password) throws IOException, JSONException {
 //        Log.d(TAG, "login: "+user_kind);
         MediaType JSON = MediaType.parse("application/json;charset=utf-8");
         JSONObject json = new JSONObject();
+//        判断单选框选择的是什么就进行什么登录（根据user_kind改变请求URL）
         if (user_kind == "teacher") {
             json.put("tid", username);
         } else if (user_kind == "student") {
             json.put("sid", username);
+        } else {
+            Toast.makeText(this, "请选择用户类型！！！", Toast.LENGTH_SHORT).show();
         }
         json.put("password", password);
         String url = localUrl + user_kind + "/login";
+//        线程开始
         new Thread() {
             @Override
             public void run() {
@@ -156,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         }.start();
     }
 
+    //加载数据
     private void load(String username) throws IOException {
         String url = localUrl + user_kind + "/findById/" + username;
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -188,6 +205,7 @@ public class LoginActivity extends AppCompatActivity {
         load_current_term();
     }
 
+    //获取学期信息
     private void load_select_ok() throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();

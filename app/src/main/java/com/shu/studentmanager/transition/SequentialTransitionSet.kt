@@ -1,35 +1,10 @@
-/*
- * Copyright 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.shu.studentmanager.transition
 
 import android.animation.TimeInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionSet
 
-/**
- * Runs multiple [Transition]s sequentially.
- *
- * Setting a duration to this set will distribute the duration to each child transition based on its
- * weight. Interpolator is also segmented and applied to the transitions.
- *
- * (Background) A normal [TransitionSet] simply sets its properties to child transitions as they
- * are. This can be problematic for sequential transition sets. For example, setting a duration of
- * 300ms means that the entire duration will be the multiple of 300ms and the child count.
- */
+//动画效果
 class SequentialTransitionSet : TransitionSet() {
 
     init {

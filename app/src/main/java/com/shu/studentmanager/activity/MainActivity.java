@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,9 @@ import com.shu.studentmanager.constant.RequestConstant;
 import com.shu.studentmanager.databinding.ActivityMainBinding;
 import com.shu.studentmanager.fragment.ScoreManageFragment;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -46,8 +50,35 @@ public class MainActivity extends AppCompatActivity {
     private String user_kind_string;
     Handler handler_main_activity;
 
+    private static Boolean isQuit = false;
+//    处理消息
     public Handler getHandler_main_activity() {
         return handler_main_activity;
+    }
+
+    //连续点击两次返回键退出应用
+    Timer timer = new Timer();
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (isQuit == false) {
+                isQuit = true;
+                Toast.makeText(getBaseContext(), "再按一次返回键退出程序", Toast.LENGTH_SHORT).show();
+                TimerTask task = null;
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        isQuit = false;
+                    }
+                };
+                timer.schedule(task, 2000);
+            } else {
+                finish();
+                System.exit(0);
+            }
+        }
+        return false;
     }
 
     @SuppressLint("HandlerLeak")
@@ -95,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.onNavDestinationSelected(menu.getItem(0), navController);
 
+//        JetPacKMVVM中NavigationView的点击事件
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
                                                           @Override
                                                           public void onDestinationChanged(
@@ -137,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-//    @Override
+    //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.teacher_menu,menu);
 //        return true;
@@ -155,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 //        return true;
 //    }
 
+//    主页信息
     private void initUi() {
         StudentManagerApplication application = (StudentManagerApplication) getApplication();
         View header = binding.navView.getHeaderView(0);

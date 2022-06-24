@@ -8,7 +8,7 @@
 
     </data>
 
-<!--    登录首页-->
+    <!--    登录首页-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -44,21 +44,21 @@
                     android:layout_margin="2dp"
                     android:text="项目名称：学生选课助手"
                     android:textSize="16sp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:text="作者：第4组"
-                    android:textSize="16sp"></TextView>
+                    android:text="作者：王金荣 缪云军 耿莹 孙倩"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:text="课程：上海大学 数据库原理(1)"
-                    android:textSize="16sp"></TextView>
+                    android:text="课程：Android开发"
+                    android:textSize="16sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -79,7 +79,7 @@
                 android:layout_marginEnd="15dp"
                 android:text="请输入你的账户与姓名"
                 android:textSize="18sp"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/username_layout"
@@ -96,7 +96,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/username_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,8 +109,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:hint="@string/PasswordLabel"
-                app:endIconMode="password_toggle"
+                app:hintEnabled="true"
                 app:errorTextAppearance="@style/Theme.AppCompat"
+                app:passwordToggleEnabled="true"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
                 <com.google.android.material.textfield.TextInputEditText

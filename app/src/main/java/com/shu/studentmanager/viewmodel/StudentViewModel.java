@@ -19,7 +19,7 @@ public class StudentViewModel extends ViewModel {
     }
 
     public MutableLiveData<ArrayList<CourseStudent>> getMutableLiveData_student_course_list() {
-        if(mutableLiveData_student_course_list == null){
+        if (mutableLiveData_student_course_list == null) {
             mutableLiveData_student_course_list = new MutableLiveData<>();
         }
         return mutableLiveData_student_course_list;

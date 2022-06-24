@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -242,6 +243,7 @@ public class ScoreManageFragment extends Fragment {
         json.put("sname",scoreManageFragmentBinding.scoreManageFragmentStudentName.getText().toString());
         json.put("sFuzzy",scoreManageFragmentBinding.scoreManageFragmentFuzzySearch.isChecked());
         json.put("term",scoreManageFragmentBinding.scoreManageTermSelect.getText().toString());
+        Log.i("term", "initScoreList: "+scoreManageFragmentBinding.scoreManageTermSelect.getText().toString());
         if(application.getName().equals("admin")){
             json.put("tid","");
             json.put("tname","");

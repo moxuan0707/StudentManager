@@ -52,32 +52,33 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     @NonNull
     @Override
     public CourseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CourseAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        if(coursesList != null && coursesList.size() > 0){
+        if (coursesList != null && coursesList.size() > 0) {
             CourseTeacher course_entity = coursesList.get(position);
             holder.course_id_cid.setText(course_entity.getCid());
             holder.course_name_cname.setText(course_entity.getCname());
             holder.course_credit_ccredit.setText(course_entity.getCcredit());
+//            选项长按点击事件
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     new MaterialAlertDialogBuilder(context)
                             .setTitle("确认")
                             .setMessage("确定不开设该课程？")
-                            .setNeutralButton("取消",new DialogInterface.OnClickListener() {
+                            .setNeutralButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                 }
                             })
-                            .setPositiveButton("确认",new DialogInterface.OnClickListener() {
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Log.d(TAG, "onClick: "+which+" "+position);
+                                    Log.d(TAG, "onClick: " + which + " " + position);
                                     enSureDelete(coursesList.get(position));
                                 }
                             }).show();
@@ -89,12 +90,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         }
     }
 
+    //确定不开设课程
     private void enSureDelete(CourseTeacher courseTeacher) {
-        Log.d(TAG, "enSureDelete: "+ courseTeacher.toString());
-        String url = LoginActivity.localUrl+"course/deleteById/" + courseTeacher.getCid();
-        new Thread(){
+        Log.d(TAG, "enSureDelete: " + courseTeacher.toString());
+        String url = LoginActivity.localUrl + "course/deleteById/" + courseTeacher.getCid();
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 super.run();
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
@@ -109,7 +111,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                         Boolean insert_true = Boolean.parseBoolean(response.body().string());
                         final MainActivity mainActivity;
                         mainActivity = (MainActivity) context;
-                        if(insert_true){
+                        if (insert_true) {
                             Handler handler = mainActivity.getHandler_main_activity();
                             Message message = handler.obtainMessage();
                             message.what = RequestConstant.REQUEST_SUCCESS;
@@ -129,25 +131,31 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     }
 
+    //获取数据数量
     @Override
     public int getItemCount() {
         return coursesList.size();
     }
 
-    public void updateCourseList(ArrayList<CourseTeacher> mcoursesList){
+    //实时更新数据
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateCourseList(ArrayList<CourseTeacher> mcoursesList) {
         this.coursesList.clear();
         this.coursesList.addAll(mcoursesList);
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    //实例化控件
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView course_credit_ccredit, teacher_name_tname, course_name_cname, course_id_cid;
         Button operation_btn;
+
+        //绑定指定控件
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             course_id_cid = itemView.findViewById(R.id.course_id_cid);
             course_name_cname = itemView.findViewById(R.id.course_name_cname);
-            course_credit_ccredit = itemView.findViewById(R.id.course_credit_ccredit) ;
+            course_credit_ccredit = itemView.findViewById(R.id.course_credit_ccredit);
         }
     }
 

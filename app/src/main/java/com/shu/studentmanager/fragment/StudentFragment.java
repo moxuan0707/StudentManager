@@ -75,16 +75,27 @@ public class StudentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        // 创建 DataViewModel 对象，让 DataViewModel 和 Activity 进行绑定，通过反射拿到对象
         studentViewModel = new ViewModelProvider(this).get(StudentViewModel.class);
+
+        //绑定布局页面
         studentFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.student_fragment, container, false);
+
+        //将布局页面信息set到studentFragmentBinding
         studentFragmentBinding.setStudentViewModel(studentViewModel);
+
+        //开启生命周期活动
         studentFragmentBinding.setLifecycleOwner(getActivity());
 
+        //创建一个类的全局变量
         StudentManagerApplication application = (StudentManagerApplication) getActivity().getApplication();
+
+        //显示主页的id和名字
         studentFragmentBinding.studentFragmentStudentId.setText(application.getId());
         studentFragmentBinding.studentFragmentStudentName.setText(application.getName());
 
-
+        //显示列表的数据
         student_course_list_recyclerview = studentFragmentBinding.studentFragmentCourseListRecycleview;
         setStudentCoureListRecycleView();
         View root = studentFragmentBinding.getRoot();
@@ -98,11 +109,16 @@ public class StudentFragment extends Fragment {
 //        return inflater.inflate(R.layout.student_fragment, container, false);
     }
 
+    //显示主页数据
     private void setStudentCoureListRecycleView() {
+        //设置recyclerview的宽和高自适应
         student_course_list_recyclerview.setHasFixedSize(true);
+//        设置recyclerview的布局方式
         student_course_list_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        与适配器交互
         studentCourseAdapter = new StudentCourseAdapter(getActivity());
         student_course_list_recyclerview.setAdapter(studentCourseAdapter);
+//        viewModel数据传输
         studentViewModel.getMutableLiveData_student_course_list().observe(getActivity(), new Observer<ArrayList<CourseStudent>>() {
             @Override
             public void onChanged(ArrayList<CourseStudent> courseStudents) {
@@ -113,7 +129,7 @@ public class StudentFragment extends Fragment {
         });
     }
 
-
+    //通过id获取学生的课程和成绩
     private void initStudentCourseList() throws IOException {
         StudentManagerApplication application = (StudentManagerApplication) getActivity().getApplication();
         String url = localUrl + "SCT/findBySid/" + application.getId() + "/" + application.getCurrentTerm();
@@ -205,6 +221,7 @@ public class StudentFragment extends Fragment {
         }
     }
 
+    //修改密码
     private void changePassword(Student student) throws JSONException {
         MediaType JSON = MediaType.parse("application/json;charset=utf-8");
         JSONObject json = new JSONObject();
@@ -242,6 +259,7 @@ public class StudentFragment extends Fragment {
         studentFragmentBinding = null;
     }
 
+    //点击切换到修改密码
     public void TransAnimationGo() {
         Transition transition = TransitionsKt.fadeThrough().setDuration(MEDIUM_EXPAND_DURATION);
         TransitionManager.beginDelayedTransition(studentFragmentBinding.studentFragmentMoveConstrainParent, transition);
@@ -249,6 +267,7 @@ public class StudentFragment extends Fragment {
         studentFragmentBinding.studentFragmentUserInformation.setVisibility(View.GONE);
     }
 
+    //点击切换到个人信息
     public void TransAnimationBack() {
         Transition transition = TransitionsKt.fadeThrough().setDuration(MEDIUM_EXPAND_DURATION);
         TransitionManager.beginDelayedTransition(studentFragmentBinding.studentFragmentMoveConstrainParent, transition);

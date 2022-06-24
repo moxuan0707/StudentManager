@@ -61,7 +61,7 @@ public class CourseSelectFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         courseSelectViewModel = new ViewModelProvider(this).get(CourseSelectViewModel.class);
-        courseSelectFragmentBinding = DataBindingUtil.inflate(inflater,R.layout.course_select_fragment,container,false);
+        courseSelectFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.course_select_fragment, container, false);
         courseSelectFragmentBinding.setCourseSelectViewModel(courseSelectViewModel);
         courseSelectFragmentBinding.setLifecycleOwner(getActivity());
         course_select_list_recycleview = courseSelectFragmentBinding.selectCourseFragmentCourseListRecycleview;
@@ -77,26 +77,26 @@ public class CourseSelectFragment extends Fragment {
 //        return inflater.inflate(R.layout.course_select_fragment, container, false);
     }
 
-    private void initCourseSelectList() throws JSONException ,IOException{
+    private void initCourseSelectList() throws JSONException, IOException {
         MediaType JSON = MediaType.parse("application/json;charset=utf-8");
         JSONObject json = new JSONObject();
-        json.put("cid",courseSelectFragmentBinding.selectCourseFragmentInputClassNumber.getText().toString());
-        json.put("cname",courseSelectFragmentBinding.selectCourseFragmentCourseName.getText().toString());
-        json.put("tid",courseSelectFragmentBinding.selectCourseFragmentTeacherNumberTid.getText().toString());
-        json.put("tname",courseSelectFragmentBinding.selectCourseFragmentTeacherNameTname.getText().toString());
-        json.put("tFuzzy",courseSelectFragmentBinding.selectCourseCheckboxIsFuzzy.isChecked());
-        json.put("cFuzzy",courseSelectFragmentBinding.selectCourseCheckboxIsFuzzy.isChecked());
-        Log.d(TAG, "initCourseSelectList: "+ json.toString());
-        new Thread(){
+        json.put("cid", courseSelectFragmentBinding.selectCourseFragmentInputClassNumber.getText().toString());
+        json.put("cname", courseSelectFragmentBinding.selectCourseFragmentCourseName.getText().toString());
+        json.put("tid", courseSelectFragmentBinding.selectCourseFragmentTeacherNumberTid.getText().toString());
+        json.put("tname", courseSelectFragmentBinding.selectCourseFragmentTeacherNameTname.getText().toString());
+        json.put("tFuzzy", courseSelectFragmentBinding.selectCourseCheckboxIsFuzzy.isChecked());
+        json.put("cFuzzy", courseSelectFragmentBinding.selectCourseCheckboxIsFuzzy.isChecked());
+        Log.d(TAG, "initCourseSelectList: " + json.toString());
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 super.run();
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 MediaType mediaType = MediaType.parse("application/json");
-                RequestBody body = RequestBody.create(JSON,json.toString());
+                RequestBody body = RequestBody.create(JSON, json.toString());
                 Request request = new Request.Builder()
-                        .url(localUrl+"courseTeacher/findCourseTeacherInfo")
+                        .url(localUrl + "courseTeacher/findCourseTeacherInfo")
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .build();
@@ -107,11 +107,12 @@ public class CourseSelectFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ArrayList<CourseStudent> tlist = null;
                     try {
 //                        Log.d(TAG, "run: "+response.body().string());
-                        tlist = new Gson().fromJson(response.body().string(), new TypeToken<ArrayList<CourseStudent>>() {}.getType());
+                        tlist = new Gson().fromJson(response.body().string(), new TypeToken<ArrayList<CourseStudent>>() {
+                        }.getType());
                         //                        mlist.addAll(tlist);
 
                         courseSelectViewModel.setMutableLiveData_student_select_course_list(tlist);
@@ -125,10 +126,12 @@ public class CourseSelectFragment extends Fragment {
     }
 
     private void setEditTextChangedListener() {
+//课程号框
         courseSelectFragmentBinding.selectCourseFragmentInputClassNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 try {
@@ -139,14 +142,17 @@ public class CourseSelectFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
+//        课程名框
         courseSelectFragmentBinding.selectCourseFragmentCourseName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 try {
@@ -157,14 +163,17 @@ public class CourseSelectFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
+//        教师id框
         courseSelectFragmentBinding.selectCourseFragmentTeacherNumberTid.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 try {
@@ -175,14 +184,17 @@ public class CourseSelectFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
+//        教师姓名框
         courseSelectFragmentBinding.selectCourseFragmentTeacherNameTname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 try {
@@ -193,10 +205,12 @@ public class CourseSelectFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
+//        成绩选择框逻辑
         courseSelectFragmentBinding.selectCourseCheckboxIsFuzzy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -236,6 +250,7 @@ public class CourseSelectFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
